@@ -4,10 +4,11 @@ import { Connection } from '@solana/web3.js'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { wallet: string } }
+  { params }: { params: Promise<{ wallet: string }> }
 ) {
+  const { wallet } = await params
   try {
-    const walletAddress = params.wallet
+    const walletAddress = wallet
     console.log(`🔍 Fetching claim history for wallet: ${walletAddress}`)
 
     // Connect to Gorbagana testnet with fallback RPC endpoints
