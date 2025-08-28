@@ -169,6 +169,15 @@ src/
 - Request SOL for your faucet wallet address
 - The faucet distributes tokens according to Gorbagana testnet rules
 
+## Config
+
+### Using NVM
+NVM (Node Version Manager) lets you use the right version of node with your repo and locks the version if needed.
+
+Installation instructions: [@nvm-sh/nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+
+Once installed, use this repos version of node by running `nvm use`
+
 ## Contributing
 
 1. Fork the repository
