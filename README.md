@@ -6,7 +6,7 @@ A Next.js-based faucet for **Gorbagana Testnet v1** that allows users to claim *
 
 ## Features
 
-- 🔗 **Wallet Integration**: Phantom, Solflare, Backpack*, and other Solana-compatible wallets
+- 🔗 **Wallet Integration**: Backpack
 - ⏰ **24-hour Cooldown**: One claim per wallet every 24 hours
 - 📊 **Claim History**: Complete transaction tracking
 - 🎨 **Modern UI**: Responsive design with real-time feedback
@@ -180,3 +180,4 @@ src/
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
+
