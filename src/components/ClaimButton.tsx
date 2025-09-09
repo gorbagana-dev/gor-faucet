@@ -21,6 +21,21 @@ export const ClaimButton: FC<ClaimButtonProps> = ({ connection, publicKey }) => 
   const [tweetVerified, setTweetVerified] = useState(false)
   const [txSignature, setTxSignature] = useState<string>('')
   const [tweetUrl, setTweetUrl] = useState<string>('')
+  const [verificationToken, setVerificationToken] = useState<string>('')
+
+  // Restore verification view if user returns from Twitter (iOS reload/rerender)
+  useEffect(() => {
+    try {
+      const persisted = window.localStorage.getItem('gor_tweet_verification_state')
+      if (persisted) {
+        const parsed = JSON.parse(persisted) as { step?: 'tweet' | 'verify'; tweetUrl?: string }
+        if (parsed.step === 'verify') {
+          setShowTwitterVerification(true)
+          if (parsed.tweetUrl) setTweetUrl(parsed.tweetUrl)
+        }
+      }
+    } catch {}
+  }, [])
 
   useEffect(() => {
     checkEligibility()
@@ -83,17 +98,19 @@ export const ClaimButton: FC<ClaimButtonProps> = ({ connection, publicKey }) => 
     }
   }
 
-  const handleTwitterVerificationComplete = async (tweetUrlParam: string) => {
+  const handleTwitterVerificationComplete = async (tweetUrlParam: string, verificationTokenParam: string) => {
     try {
       setTweetUrl(tweetUrlParam)
+      setVerificationToken(verificationTokenParam)
       setIsClaiming(true)
       setShowTwitterVerification(false)
       setTweetVerified(true)
+      try { window.localStorage.removeItem('gor_tweet_verification_state') } catch {}
 
       // Show verification message optimized for Gorbagana
       setVerificationMessage('🔍 Verifying transaction on Gorbagana Testnet v1...')
 
-      const signature = await claimTokens(connection, publicKey)
+      const signature = await claimTokens(connection, publicKey, verificationTokenParam)
       setTxSignature(signature)
 
       // Clear verification message and show success
